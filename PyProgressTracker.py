@@ -1,6 +1,8 @@
 from graphics import *
 from myGraph import *
 
+# Create a window
+win = GraphWin("Histogram", 400, 300)
 #///////////////////////////////////////////////////////////////////////////////////////////////////////////
 # Welcome Text
 print("Hi, Welcome to 'The Progression Outcome program'.")    
@@ -66,7 +68,7 @@ def validation():
             if total_credits > 120:
                 print("Total incorrect")
             else:
-                return total_credits
+                return
             
 #///////////////////////////////////////////////////////////////////////////////////////////////////////////
 def prompt_credits(pass_cred, defer_cred, fail_cred):
@@ -81,8 +83,7 @@ def prompt_credits(pass_cred, defer_cred, fail_cred):
         return
     
     elif (pass_cred + defer_cred) >60:
-        print('''Do not Progress – module retriever
-''')
+        print('''Do not Progress – module retriever''')
         print("---------------------------------")
         return
     
@@ -112,5 +113,3 @@ while True:
             print("Incorrect Choice. Try again.")
             continue
 #///////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-

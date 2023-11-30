@@ -1,92 +1,77 @@
 from graphics import *
-from myGraph import *
 
 print("""***STUDENT PROGRESSION SYSTEM*** Developed by Dilruk""")
-print()
 
-# To ask selection of choice. (Continue or move to Histogram.)
-selection1 = 0
+progress_count = trailer_count = retriever_count = excluded_count = 0
 
-progress_count = 0
-trailer_count = 0
-retriever_count = 0
-excluded_count = 0
+def range_check(credit):
+    if credit not in range(0,130,20):
+        return True
+    return False
 
-
-# ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 # validate inputs
 def validation():
-    global pass_credits
-    global defer_credits
-    global fail_credits
+    global pass_credit
+    global defer_credit
+    global fail_credit
 
-    # -------------------------------------
     # Prompt if it's not an integer.
     while True:
         try:
-            pass_credits = int(input("Enter your total PASS credits: "))
-
+            pass_credit = int(input("Enter your total PASS credits: "))
         except ValueError:
             print("Integer required")
             continue
 
         # Pass credit - Out of Range indication
-        if pass_credits not in [0, 20, 40, 60, 80, 100, 120]:
+        if range_check(pass_credit):
             print("Out of range.")
             continue
-        else:
-            pass
-        # -------------------------------------
-        # Prompt if it's not an integer.
-        try:
-            defer_credits = int(input("Enter your total DEFER credits: "))
 
+        try:
+            defer_credit = int(input("Enter your total DEFER credits: "))
         except ValueError:
             print("Integer required")
             continue
 
         # Defer credit - Out of Range indication
-        if defer_credits not in [0, 20, 40, 60, 80, 100, 120]:
+        if range_check(defer_credit):
             print("Out of range.")
             continue
-        else:
-            pass
-        # -------------------------------------
-        # Prompt if it's not an integer.
+
         try:
-            fail_credits = int(input("Enter your total FAIL credits: "))
+            fail_credit = int(input("Enter your total FAIL credits: "))
         except:
             print("Integer required")
             continue
 
         # Fail credit - Out of Range indication
-        if fail_credits not in [0, 20, 40, 60, 80, 100, 120]:
+        if range_check(fail_credit):
             print("Out of range.")
             continue
-        else:
-            pass
-        # -------------------------------------
+        
+        # Total incorrect
+        if (pass_credit+defer_credit+fail_credit) != 120:
+            print("Total Incorrect!")
+            continue
 
-        # Total incorrect indication
-        total_credits = pass_credits + defer_credits + fail_credits
-        if total_credits > 120:
-            print("Total incorrect")
-            pass
-        else:
-            return
+# After you returned inside the function u don't have you if elif, think about the time complexity,->
+# returning a value like a breaking out of the function ->
+# there's some error's in this function -> (prompt_credits) not the error's ->
+# it's like mathamatically it's wrong to my point of view ->
+# I added some change, If u like continue with that.
+# Rearrange the first statement inside the prompt_credits function, do it like that.
 
 
-# ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-def prompt_credits(pass_cred, defer_cred, fail_cred):
-    if pass_cred == 120:
-        credit_result = "Progress"
+# In here you didn't use fail_credit, Look again through this function
+def prompt_credits(pass_credit, defer_credit, fail_credit):
+    if pass_credit == 120:
+        print("Progress")
         global progress_count
         progress_count += 1
-        print(credit_result)
-        print("---------------------------------")
-        return progress_count
-
-    elif (pass_cred + defer_cred) > 100:
+        return
+        
+    if (pass_credit + defer_credit) > 100:
         credit_result = "Progress (module trailer)"
         global trailer_count
         trailer_count += 1
@@ -94,7 +79,7 @@ def prompt_credits(pass_cred, defer_cred, fail_cred):
         print("---------------------------------")
         return trailer_count
 
-    elif (pass_cred + defer_cred) > 60:
+    elif (pass_credit + defer_credit) > 60:
         credit_result = "Do not Progress – module retriever"
         global retriever_count
         retriever_count += 1
@@ -110,16 +95,17 @@ def prompt_credits(pass_cred, defer_cred, fail_cred):
         print("---------------------------------")
         return excluded_count
 
+# In here, once you returned a list from a function, ->
+# function break like a while loop you can easily return ->
+# credit_list
 
+# My suggestion is to create a list out of the function then append the count to those indexes
 def store_progress():
     credit_list = [progress_count, trailer_count, retriever_count, excluded_count]
-    return progress_count
-    return trailer_count
-    return retriever_count
-    return excluded_count
+    return credit_list
 
 
-# ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+# didn't touch anything inside this function
 def histogram_graph(progress_count, trailer_count, retriever_count, excluded_count, height_scale = 25):
     # Create a GraphWin window
     win = GraphWin("Histogram", 715, 550)
@@ -217,38 +203,20 @@ def histogram_graph(progress_count, trailer_count, retriever_count, excluded_cou
     win.getMouse()
     win.close()
 
-# ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-def selection_choice():
-    global selection1
-    while True:
-        selection1 = input(
-            """Would you like to enter another set of data?
-Enter 'y' for yes or 'q' to quit and view results: """
-        )
+# deleted the selection_choice() - it's unessasary actually.
+# I added that to while loop, it's less time complexity
 
-        if selection1 == "y":
-            validation()
-            prompt_credits(pass_credits, defer_credits, fail_credits)
-            store_progress()
-
-        elif selection1 == "q":
-            print(progress_count)
-            print(trailer_count)
-            print(retriever_count)
-            print(excluded_count)
-            histogram_graph(progress_count, trailer_count, retriever_count, excluded_count)
-            continue
-
-        else:
-            print("Incorrect selection")
-            continue
-
-
-# ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 # Start code
-
 while True:
     validation()
-    prompt_credits(pass_credits, defer_credits, fail_credits)
+    prompt_credits(pass_credit, defer_credit, fail_credit)
     store_progress()
-    selection_choice()
+    selection = input("Would you like to continue (y/n): ").strip()
+    if selection.lower() == "n":
+        break
+
+
+# Hey, dilruk
+# Quick TIP
+# Try to reduce creating functions, and global things.
+# If this changes okay with you accept the request. it will change automatically

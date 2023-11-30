@@ -1,4 +1,5 @@
 from graphics import *
+from myGraph import *
 
 print("""***STUDENT PROGRESSION SYSTEM*** Developed by Dilruk""")
 print()
@@ -10,6 +11,8 @@ progress_count = 0
 trailer_count = 0
 retriever_count = 0
 excluded_count = 0
+global progress_outcome_list
+progress_outcome_list = []
 
 
 # ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -23,35 +26,43 @@ def validation():
     # Prompt if it's not an integer.
     while True:
         try:
-            pass_credit = int(input("Enter your total PASS credits: "))
+            pass_credits = int(input("Enter your total PASS credits: "))
+
         except ValueError:
             print("Integer required")
             continue
 
         # Pass credit - Out of Range indication
-        if range_check(pass_credit):
+        if pass_credits not in [0, 20, 40, 60, 80, 100, 120]:
             print("Out of range.")
             continue
-
+        else:
+            pass
+        # -------------------------------------
+        # Prompt if it's not an integer.
         try:
-            defer_credit = int(input("Enter your total DEFER credits: "))
+            defer_credits = int(input("Enter your total DEFER credits: "))
+
         except ValueError:
             print("Integer required")
             continue
 
         # Defer credit - Out of Range indication
-        if range_check(defer_credit):
+        if defer_credits not in [0, 20, 40, 60, 80, 100, 120]:
             print("Out of range.")
             continue
-
+        else:
+            pass
+        # -------------------------------------
+        # Prompt if it's not an integer.
         try:
-            fail_credit = int(input("Enter your total FAIL credits: "))
+            fail_credits = int(input("Enter your total FAIL credits: "))
         except:
             print("Integer required")
             continue
 
         # Fail credit - Out of Range indication
-        if range_check(fail_credit):
+        if fail_credits not in [0, 20, 40, 60, 80, 100, 120]:
             print("Out of range.")
             continue
         else:
@@ -64,18 +75,19 @@ def validation():
             print("Total incorrect")
             pass
         else:
-            return
+            return pass_credits, defer_credits, fail_credits
 
 
 # ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 def prompt_credits(pass_cred, defer_cred, fail_cred):
+    global credit_result
     if pass_cred == 120:
         credit_result = "Progress"
         global progress_count
         progress_count += 1
         print(credit_result)
         print("---------------------------------")
-        return progress_count
+
 
     elif (pass_cred + defer_cred) > 100:
         credit_result = "Progress (module trailer)"
@@ -85,7 +97,7 @@ def prompt_credits(pass_cred, defer_cred, fail_cred):
         print("---------------------------------")
         
 
-    elif (pass_credit + defer_credit) > 60:
+    elif (pass_cred + defer_cred) > 60:
         credit_result = "Do not Progress – module retriever"
         global retriever_count
         retriever_count += 1
@@ -99,30 +111,22 @@ def prompt_credits(pass_cred, defer_cred, fail_cred):
         excluded_count += 1
         print(credit_result)
         print("---------------------------------")
-        return excluded_count
+    
+    return progress_count, trailer_count, retriever_count, excluded_count, credit_result
 
-
-# My suggestion is to create a list out of the function then append the count to those indexes
 def store_progress():
     global progress_list   
     progress_list = [credit_result, pass_credits, defer_credits, fail_credits]
-    
-    global progress_outcome_list
-    progress_outcome_list = []
-    print(progress_outcome_list)
 
     progress_outcome_list.append(progress_list)
-    print(progress_outcome_list)
 
     credit_list = [progress_count, trailer_count, retriever_count, excluded_count]
-    return progress_count
-    return trailer_count
-    return retriever_count
-    return excluded_count
-
+    return progress_count, trailer_count, retriever_count, excluded_count, progress_outcome_list
 
 # ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-def histogram_graph(progress_count, trailer_count, retriever_count, excluded_count, height_scale = 25):
+def histogram_graph(
+    progress_count, trailer_count, retriever_count, excluded_count, height_scale=25
+):
     # Create a GraphWin window
     win = GraphWin("Histogram", 715, 550)
 
@@ -234,6 +238,7 @@ def histogram_graph(progress_count, trailer_count, retriever_count, excluded_cou
     win.getMouse()
     win.close()
 
+
 # ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 def selection_choice():
     global selection1
@@ -249,10 +254,7 @@ Enter 'y' for yes or 'q' to quit and view results: """
             store_progress()
 
         elif selection1 == "q":
-            print(progress_count)
-            print(trailer_count)
-            print(retriever_count)
-            print(excluded_count)
+            progression_report()
             histogram_graph(progress_count, trailer_count, retriever_count, excluded_count)
             continue
 
@@ -260,11 +262,18 @@ Enter 'y' for yes or 'q' to quit and view results: """
             print("Incorrect selection")
             continue
 
+def progression_report():
+    print(progress_outcome_list)
+    print(credit_result, "-", pass_credits, defer_credits, fail_credits)
 
 # ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 # Start code
+# Part 1
+
 while True:
+    print("Part 1:")
     validation()
-    prompt_credits(pass_credit, defer_credit, fail_credit)
+    prompt_credits(pass_credits, defer_credits, fail_credits)
     store_progress()
     selection_choice()
+    

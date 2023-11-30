@@ -120,13 +120,13 @@ def store_progress():
 
 
 # ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-def histogram_graph(progress_count, trailer_count, retriever_count, excluded_count, height_scale = 20):
+def histogram_graph(progress_count, trailer_count, retriever_count, excluded_count, height_scale = 25):
     # Create a GraphWin window
-    win = GraphWin("Histogram", 650, 400)
+    win = GraphWin("Histogram", 715, 550)
 
     # Title of the histogram
-    title = Text(Point(125, 20), "Histogram Results")
-    title.setSize(14)
+    title = Text(Point(170, 30), "Histogram Results")
+    title.setSize(20)
     title.setStyle("bold")
     title.draw(win)
 
@@ -140,54 +140,79 @@ def histogram_graph(progress_count, trailer_count, retriever_count, excluded_cou
     excluded_percentage = (excluded_count / total_credits) * 100
 
     # Rectangles for each credits
-    progress_rect = Rectangle(Point(50, 250), Point(150, 250 - progress_count * height_scale))
-    progress_rect.setFill("light green")
+    progress_rect = Rectangle(Point(70, 440), Point(190, 440 - progress_count * height_scale))
+    progress_rect.setFill("green")
     progress_rect.draw(win)
 
-    trailer_rect = Rectangle(Point(200, 250), Point(300, 250 - trailer_count * height_scale))
-    trailer_rect.setFill("dark green")
+    trailer_rect = Rectangle(Point(200, 440), Point(320, 440 - trailer_count * height_scale))
+    trailer_rect.setFill("light green")
     trailer_rect.draw(win)
 
-    retriever_rect = Rectangle(Point(350, 250), Point(450, 250 - retriever_count * height_scale))
-    retriever_rect.setFill("yellow")
+    retriever_rect = Rectangle(Point(330, 440), Point(450, 440 - retriever_count * height_scale))
+    retriever_rect.setFill("orange")
     retriever_rect.draw(win)
 
-    excluded_rect = Rectangle(Point(500, 250), Point(600, 250 - excluded_count * height_scale))
-    excluded_rect.setFill("purple")
+    excluded_rect = Rectangle(Point(460, 440), Point(580, 440 - excluded_count * height_scale))
+    excluded_rect.setFill("red")
     excluded_rect.draw(win)
 
     # Labels at the bottom of each bar
-    progress_label = Text(Point(100, 270), "Progress")
+    progress_label = Text(Point(130, 460), "Progress")
+    progress_label.setSize(15)
+    progress_label.setStyle("normal")
     progress_label.draw(win)
 
-    trailer_label = Text(Point(250, 270), "Trailer")
+    trailer_label = Text(Point(260, 460), "Trailer")
+    trailer_label.setSize(15)
+    trailer_label.setStyle("normal")
     trailer_label.draw(win)
 
-    retriever_label = Text(Point(400, 270), "Retriever")
+    retriever_label = Text(Point(390, 460), "Retriever")
+    retriever_label.setSize(15)
+    retriever_label.setStyle("normal")
     retriever_label.draw(win)
 
-    excluded_label = Text(Point(550, 270), "Excluded")
+    excluded_label = Text(Point(520, 460), "Excluded")
+    excluded_label.setSize(15)
+    excluded_label.setStyle("normal")
     excluded_label.draw(win)
 
     # Value labels on the top of each bar
-    progress_count_label = Text(Point(100, 250 - progress_count * height_scale - 10), f"{progress_count}")
+    progress_count_label = Text(Point(130, 440 - progress_count * height_scale - 10), f"{progress_count}")
+    progress_count_label.setSize(15)
+    progress_count_label.setStyle("normal")
     progress_count_label.draw(win)
 
-    trailer_count_label = Text(Point(250, 250 - trailer_count * height_scale - 10), f"{trailer_count}")
+    trailer_count_label = Text(Point(260, 440 - trailer_count * height_scale - 10), f"{trailer_count}")
+    trailer_count_label.setSize(15)
+    trailer_count_label.setStyle("normal")
     trailer_count_label.draw(win)
 
-    retriever_count_label = Text(Point(400, 250 - retriever_count * height_scale - 10), f"{retriever_count}")
+    retriever_count_label = Text(Point(390, 440 - retriever_count * height_scale - 10), f"{retriever_count}")
+    retriever_count_label.setSize(15)
+    retriever_count_label.setStyle("normal")
     retriever_count_label.draw(win)
 
-    excluded_count_label = Text(Point(550, 250 - excluded_count * height_scale - 10), f"{excluded_count}")
+    excluded_count_label = Text(Point(520, 440 - excluded_count * height_scale - 10), f"{excluded_count}")
+    excluded_count_label.setSize(15)
+    excluded_count_label.setStyle("normal")
     excluded_count_label.draw(win)
 
+    # bottom x axis
+    start_point = Point(50,440)
+    end_point = Point(600, 440)
+    line = Line(start_point, end_point)
+    line.setOutline("black")
+    line.setWidth(2)
+    line.draw(win)
+    
+
     # Outcomes of the histogram
-    title = Text(Point(125, 320), "{} outcomes in total".format(total_credits))
-    title.setSize(14)
+    title = Text(Point(190, 510), "{} outcomes in total".format(total_credits))
+    title.setSize(20)
     title.setStyle("bold")
     title.draw(win)
-
+    
     # Display the Histogram window
     win.getMouse()
     win.close()
@@ -212,7 +237,7 @@ Enter 'y' for yes or 'q' to quit and view results: """
             print(retriever_count)
             print(excluded_count)
             histogram_graph(progress_count, trailer_count, retriever_count, excluded_count)
-            break
+            continue
 
         else:
             print("Incorrect selection")
@@ -221,10 +246,8 @@ Enter 'y' for yes or 'q' to quit and view results: """
 
 # ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 # Start code
-# Part 1
 
 while True:
-    print("---Part 1---")
     validation()
     prompt_credits(pass_credits, defer_credits, fail_credits)
     store_progress()

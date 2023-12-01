@@ -1,5 +1,7 @@
 PyProgressTracker
+
 Student Progression Tracking System
+
 PyProgressTracker is a Python application designed for tracking and analyzing student academic progress. The system facilitates input of credits earned in various modules, performs validation checks, and provides insights into the student's academic standing through a visual histogram representation.
 
 Features

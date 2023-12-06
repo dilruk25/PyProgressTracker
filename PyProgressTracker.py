@@ -1,22 +1,24 @@
 from graphics import *
 import sys
 
-# Variable to ask selection of choice. (Continue or move to Histogram.)
-selection1 = 0
+# //////////////////////////////////////////  Main Menu  /////////////////////////////////////////////////
+def main_menu():
+    global verify
+    print('''Select the mode you want to continue
+          1. Student Mode
+          2. Staff Member Mode
+          3.. Exit\n''')
+    verify = input("Select (1/2/3): ").lower()
 
-progress_count = 0
-trailer_count = 0
-retriever_count = 0
-excluded_count = 0
-global progress_outcome_list
+# ////////////////////////////////////////////  Exit  ////////////////////////////////////////////////////
+def exit():
+    print("Have a Nice Day...")
+    sys.exit(0)
 
-# ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-# validate inputs
+# ///////////////////////////////////////  validate inputs  //////////////////////////////////////////////
 def validation():
-    global pass_credits
-    global defer_credits
-    global fail_credits
-    
+    global pass_credits, defer_credits, fail_credits
+
     while True:
         # -------------------------------------
         # Prompt if it's not an integer.
@@ -34,7 +36,7 @@ def validation():
         else:
             pass
         # -------------------------------------
-        # Prompt if it's not an integer.
+
         try:
             defer_credits = int(input("Enter your total DEFER credits: "))
 
@@ -42,21 +44,19 @@ def validation():
             print("Integer required")
             continue
 
-        # Defer credit - Out of Range indication
         if defer_credits not in [0, 20, 40, 60, 80, 100, 120]:
             print("Out of range.")
             continue
         else:
             pass
         # -------------------------------------
-        # Prompt if it's not an integer.
+
         try:
             fail_credits = int(input("Enter your total FAIL credits: "))
         except:
             print("Integer required")
             continue
 
-        # Fail credit - Out of Range indication
         if fail_credits not in [0, 20, 40, 60, 80, 100, 120]:
             print("Out of range.")
             continue
@@ -72,59 +72,51 @@ def validation():
         else:
             return pass_credits, defer_credits, fail_credits
 
-# ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-# Prompt the progression outcome
+# ///////////////////////////////  Prompt the progression outcome  ///////////////////////////////////////
+progress_count, trailer_count, retriever_count, excluded_count = 0,0,0,0
+
 def prompt_credits(pass_credits, defer_credits, fail_credits):
-    global credit_result
+    global credit_result, progress_count, trailer_count, excluded_count, retriever_count
 
     if pass_credits == 120:
         credit_result = "Progress"
-        global progress_count
         progress_count += 1
         print(credit_result)
-        print("---------------------------------")
 
-
-    elif (pass_credits) >= 100:
+    elif pass_credits == 100:
         credit_result = "Progress (module trailer)"
-        global trailer_count
         trailer_count += 1
         print(credit_result)
-        print("---------------------------------")
-        
 
-    elif (fail_credits) >= 80:
+    elif fail_credits >= 80:
         credit_result = "Exclude"
-        global excluded_count
         excluded_count += 1
         print(credit_result)
-        print("---------------------------------")
 
     else:
         credit_result = "Do not Progress – module retriever"
-        global retriever_count
         retriever_count += 1
         print(credit_result)
-        print("---------------------------------")
 
+    print("---------------------------------")
     return progress_count, trailer_count, retriever_count, excluded_count, credit_result
 
-# ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-# Store the progressions
+# ///////////////////////////////////  Store the progressions  ///////////////////////////////////////////
 progress_outcomes_list = []
+
 def store_progress():
-    global progress_list   
+    global progress_list
     temp_progress_list = [credit_result, pass_credits, defer_credits, fail_credits]
-    
     progress_outcomes_list.append(temp_progress_list)
 
     # Only use in histogram
     credit_list = [progress_count, trailer_count, retriever_count, excluded_count]
+
     return progress_count, trailer_count, retriever_count, excluded_count, progress_outcomes_list
 
-# ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-# Display Histogram
-def histogram_graph(progress_count, trailer_count, retriever_count, excluded_count, height_scale = 25):
+# //////////////////////////////////////  Display Histogram  /////////////////////////////////////////////
+def histogram_graph(progress_count, trailer_count, retriever_count, excluded_count, height_scale=25):
+
     # Create a GraphWin window
     win = GraphWin("Histogram", 715, 550)
 
@@ -203,111 +195,114 @@ def histogram_graph(progress_count, trailer_count, retriever_count, excluded_cou
     excluded_count_label.draw(win)
 
     # bottom x axis
-    start_point = Point(70,441)
+    start_point = Point(70, 441)
     end_point = Point(640, 441)
     line = Line(start_point, end_point)
     line.setOutline("black")
     line.setWidth(2)
     line.draw(win)
-    
 
     # Outcomes of the histogram
     title = Text(Point(190, 510), "{} outcomes in total".format(total_credits))
     title.setSize(20)
     title.setStyle("bold")
     title.draw(win)
-    
+
     # Display the Histogram window
     win.getMouse()
     win.close()
 
-# ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-# Selection Choice
+# //////////////////////////////////////  Selection Choice  //////////////////////////////////////////////
 def selection_choice():
-    global selection1
+    global selection1, progress_count, trailer_count, retriever_count, excluded_count
     while True:
-        selection1 = input(
-            """Would you like to enter another set of data?
-Enter 'y' for yes or 'q' to quit and view results: """
-        )
+        selection1 = input("""Would you like to enter another set of data?\nEnter 'y' for yes or 'q' to quit and view results: """)
 
         if selection1 == "y":
+            print("---------------------------------")
             validation()
             prompt_credits(pass_credits, defer_credits, fail_credits)
             store_progress()
 
         elif selection1 == "q":
+            print("---------------------------------")
             progression_report()
             histogram_graph(progress_count, trailer_count, retriever_count, excluded_count)
+
+            # Reset Histogram & Progress Outcomes list
+            progress_count, trailer_count, retriever_count, excluded_count = 0, 0, 0, 0
+            progress_outcomes_list = []
             break
 
         else:
             print("Incorrect selection")
             continue
 
-# ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-# Progression Report
+# /////////////////////////////////////  Progression Report  /////////////////////////////////////////////
 def progression_report():
-    print()
-    print("Part 2:")
+    print("======  Part 2: Displaying All Progress Outcomes  ======")
     for outcome in progress_outcomes_list:
         print("---------------------------------")
         print(f"{outcome[0]} - {outcome[1]}, {outcome[2]}, {outcome[3]}")
     print("---------------------------------")
 
-# ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-# Start code
-# Part 1
-print("***STUDENT PROGRESSION SYSTEM*** Developed by Dilruk")
-print()
-print("Select the mode you want to continue")
-print("1. Student Mode")
-print("2. Staff Member Mode")
-print("---------------------------------")
-verify = input("Type 1 or 2: ").lower()
+# /////////////////////////////////////////  Staff Mode  /////////////////////////////////////////////////
+def staff_mode():
+    print("---------------------------------  Staff Member Mode  ---------------------------------")
+
+    while True:
+        validation()
+        prompt_credits(pass_credits, defer_credits, fail_credits)
+        store_progress()
+        selection_choice()
+        selection2 = input("Do you want to Try Again (y) or Exit (n)? (y/n) ").lower()
+        
+        if selection2 == "y":
+            print("---------------------------------")
+            continue
+        elif selection2 == "n":
+            print("---------------------------------")
+            print("Have a Nice Day...")
+            sys.exit(0)
+        else:
+            print("Incorrect selection")
+            continue
+# ////////////////////////////////////////  Student Mode  ////////////////////////////////////////////////
+def student():
+    print("---------------------------------  Student Mode  ---------------------------------\n")
+    while True:
+        validation()
+        prompt_credits(pass_credits, defer_credits, fail_credits)
+        store_progress()
+        selection2 = input("Do you want to Try Again (y) or Exit (n)? (y/n) ").lower()
+
+        if selection2 == "y":
+            print("---------------------------------")
+            continue
+        elif selection2 == "n":
+            print("---------------------------------\nIn Student Mode, No histogram available for multiple progression.")
+            exit()
+        else:
+            print("Incorrect selection")
+            continue
+
+# /////////////////////////////////////////  Start code  /////////////////////////////////////////////////
+print("---STUDENT PROGRESSION SYSTEM--- Developed by Dilruk\n")
+
 while True:
+    main_menu()
+
     # For 1 Student
     if verify == "1":
-        print("---------------------------------")
-        print("Student Mode") 
-        while True:  
-            validation()
-            prompt_credits(pass_credits, defer_credits, fail_credits)
-            store_progress()
-
-            selection2 = input("Do you want to Exit (y) or Try Again (n)? (y/n) ").lower()
-
-            if selection2 == "y":
-                print("In Student Mode, No histogram available for multiple progression.")
-                print("Have a Nice Day...")
-                sys.exit(0)
-            elif selection2 == "n":
-                continue
-            else:
-                print("Incorrect selection")
-                continue
+        student()
 
     # For a Staff Member
     elif verify == "2":
-        print("---------------------------------")
-        print("Staff Member Mode")  
-        print("Part 1:")
+        staff_mode()
 
-        while True:
-            validation()
-            prompt_credits(pass_credits, defer_credits, fail_credits)
-            store_progress()
-            selection_choice()
-            selection2 = input("Do you want to Exit (y) or Try Again (n)? (y/n) ").lower()
-            if selection2 == "y":
-                print("Have a Nice Day...")
-                sys.exit(0)
-            elif selection2 == "n":
-                continue
-            else:
-                print("Incorrect selection")
-                continue
-
+    # For Exit
+    elif verify == "3":
+        exit()
     else:
-        print("Incorrect selection. Try again")
+        print("Incorrect selection. Try again\n---------------------------------")
         continue

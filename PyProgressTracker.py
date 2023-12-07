@@ -6,10 +6,10 @@ def create_gui():
     # Your Tkinter window creation code here
 
 # Check if running in a graphical environment before creating the GUI
-if os.environ.get("DISPLAY"):
+if os.environ.get("DISPLAY") or os.name == 'nt':  # Check if on Windows
     create_gui()
 else:
-    print("Running in a headless environment, cannot create Tkinter window.")
+    print("Running in a headless environment or non-Windows OS, cannot create Tkinter window.")
 
 # //////////////////////////////////////////  Main Menu  /////////////////////////////////////////////////
 def main_menu():

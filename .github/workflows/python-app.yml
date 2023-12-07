@@ -26,7 +26,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install flake8 pytest
         # Copy graphics.py from the repository to the working directory if it doesn't exist
-        cp -n graphics.py .
+        [ -e graphics.py ] || cp graphics.py .
 
     - name: Lint with flake8
       run: |

@@ -1,22 +1,30 @@
 from graphics import *
 import os
 import sys
-import tkinter as tk  # Import the tkinter module
+
+# Check if running in a graphical environment before creating the GUI
+if os.environ.get("DISPLAY") or os.name == 'nt':  # Check if on Windows
+    import tkinter as tk  # Import the tkinter module
+else:
+    tk = None  # Tkinter is not available in a headless environment
 
 def create_gui():
-    # Create the main window
-    root = tk.Tk()
-    root.title("Student Progress Tracker")
+    if tk:
+        # Create the main window
+        root = tk.Tk()
+        root.title("Student Progress Tracker")
 
-    # Add some widgets (buttons, labels, etc.) to the window
-    label = tk.Label(root, text="Welcome to the Student Progress Tracker!")
-    label.pack(pady=10)
+        # Add some widgets (buttons, labels, etc.) to the window
+        label = tk.Label(root, text="Welcome to the Student Progress Tracker!")
+        label.pack(pady=10)
 
-    button = tk.Button(root, text="Click me!", command=lambda: print("Button clicked"))
-    button.pack(pady=10)
+        button = tk.Button(root, text="Click me!", command=lambda: print("Button clicked"))
+        button.pack(pady=10)
 
-    # Run the Tkinter event loop
-    root.mainloop()
+        # Run the Tkinter event loop
+        root.mainloop()
+    else:
+        print("Tkinter is not available in this headless environment.")
 
 # //////////////////////////////////////////  Main Menu  /////////////////////////////////////////////////
 def main_menu():

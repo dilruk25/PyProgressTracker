@@ -21,8 +21,5 @@ jobs:
       with:
         python-version: 3.12  # Specify the Python version you need
 
-    - name: Copy graphics.py
-      run: cp graphics.py $GITHUB_WORKSPACE
-
     - name: Run Python script
       run: PyProgressTracker.py  # Replace with your script name

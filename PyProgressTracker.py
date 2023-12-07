@@ -1,6 +1,13 @@
 from graphics import *
 import sys
 
+# Check if running in a graphical environment
+if os.environ.get("DISPLAY"):
+    _root = tk.Tk()
+    # Rest of your Tkinter code here
+else:
+    print("Running in a headless environment, cannot create Tkinter window.")
+    
 # //////////////////////////////////////////  Main Menu  /////////////////////////////////////////////////
 def main_menu():
     global verify

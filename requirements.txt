@@ -1,1 +1,1 @@
-graphics.py=1.0.0
+graphics.py==1.0.0

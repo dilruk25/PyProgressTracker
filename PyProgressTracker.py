@@ -4,8 +4,20 @@ import sys
 import tkinter as tk  # Import the tkinter module
 
 def create_gui():
-    _root = tk.Tk()
-    # Your Tkinter window creation code here
+    # Create the main window
+    root = tk.Tk()
+    root.title("Student Progress Tracker")
+
+    # Add some widgets (buttons, labels, etc.) to the window
+    label = tk.Label(root, text="Welcome to the Student Progress Tracker!")
+    label.pack(pady=10)
+
+    button = tk.Button(root, text="Click me!", command=lambda: print("Button clicked"))
+    button.pack(pady=10)
+
+    # Run the Tkinter event loop
+    root.mainloop()
+
 # //////////////////////////////////////////  Main Menu  /////////////////////////////////////////////////
 def main_menu():
     global verify

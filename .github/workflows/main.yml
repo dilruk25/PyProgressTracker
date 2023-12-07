@@ -25,8 +25,24 @@ jobs:
         pip install flake8 pytest
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
+    # Upload graphics.py and sys as artifacts
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: python-files
+        path: |
+          path/to/graphics.py
+          path/to/sys.py
+
     - name: Lint with flake8
       run: flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
 
     - name: Test with pytest
       run: pytest
+
+    # Download graphics.py and sys from artifacts
+    - name: Download artifacts
+      uses: actions/download-artifact@v2
+      with:
+        name: python-files
+        path: .

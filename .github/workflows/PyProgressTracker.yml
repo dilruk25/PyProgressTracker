@@ -7,7 +7,7 @@
     echo "Contents of the current directory: $(ls -al)"
     # Add more commands to print additional information about your environment, dependencies, etc.
 
-name: PyProgressTracker.py
+name: Python package
 
 on:
   push:

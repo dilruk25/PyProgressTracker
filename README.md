@@ -22,7 +22,7 @@ PyProgressTracker is a Python application designed for tracking and analyzing st
 
 ## Dependencies
 
-- Python 3.x
+- Python 3.12
 - [Graphics Module](#) (Specify any external module or library used)
 
 ## Usage Example
@@ -38,34 +38,39 @@ Contributions are welcome! If you find a bug or have suggestions for improvement
 
 The provided code seems to be a student progression system. It collects information about student credits, determines their progression outcome, stores the outcomes, and optionally displays a histogram of the progression results. Here are the instructions on how to use this code:
 
-# How to Use?
+## How to Use
+
 1. **Initialization:**
-   - Run the script.
-   - It will prompt you to select the mode: Student Mode (1) or Staff Member Mode (2).
+   - Execute the script.
+   - Choose the mode: Student Mode (1) or Staff Member Mode (2).
    - Enter either 1 or 2 accordingly.
 
 2. **Student Mode (Option 1):**
-   - You will enter the Student Mode if you chose option 1.
-   - You will be prompted to enter the total PASS, DEFER, and FAIL credits. Make sure to enter valid integers.
-   - Based on the entered credits, the program will determine the progression outcome.
-   - After the outcome is displayed, you will be asked if you want to exit (y) or try again (n).
-   - If you choose to try again, you can enter a new set of credits.
+   - Enter Student Mode if you chose option 1.
+   - Input total PASS, DEFER, and FAIL credits. Ensure valid integers.
+   - The program determines the progression outcome.
+   - Choose to exit (y) or try again (n).
+   - If you try again, enter a new set of credits.
 
 3. **Staff Member Mode (Option 2):**
-   - You will enter the Staff Member Mode if you chose option 2.
-   - Similar to Student Mode, you will enter the total PASS, DEFER, and FAIL credits.
-   - The program will determine the progression outcome and store the outcomes.
-   - After each student entry, you will be asked if you want to enter another set of data (y) or quit and view results (q).
-   - If you choose to view results, it will display a progression report and a histogram of all entered data.
+   - Enter Staff Member Mode if you chose option 2.
+   - Similar to Student Mode, input total PASS, DEFER, and FAIL credits.
+   - The program determines the progression outcome and stores the outcomes.
+   - After each student entry, decide to enter another set of data (y), quit and view results (q), or switch the mode (c).
+   - If you view results, the program displays a progression report and a histogram of all entered data.
 
 4. **Histogram Display:**
-   - If you choose to view results in Staff Member Mode, a histogram will be displayed.
+   - In Staff Member Mode, a histogram is displayed.
    - The histogram shows the distribution of progression outcomes.
-   - Each bar represents a category (Progress, Trailer, Retriever, Excluded), and the height of the bar corresponds to the count of students in that category.
+   - Each bar represents a category (Progress, Trailer, Retriever, Excluded), and the height corresponds to the count of students.
    - The x-axis represents the categories, and the y-axis represents the count of students.
 
-5. **Exiting the Program:**
-   - In both modes, you have the option to exit by entering 'y' when prompted.
-   - If you choose to exit, the program will terminate with a farewell message.
+5. **Switching Modes:**
+   - At any point in Staff Member Mode (Option 2), press 'c' to switch to Student Mode (Option 1).
+   - You will be prompted to enter another set of data or exit as usual.
+
+6. **Exiting the Program:**
+   - In both modes, exit by entering 'y' when prompted.
+   - Exiting terminates the program with a farewell message.
 
 Note: Ensure that you enter valid integer values when prompted for credits. The program includes input validation to handle incorrect inputs.

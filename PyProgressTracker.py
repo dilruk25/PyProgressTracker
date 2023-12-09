@@ -1,3 +1,4 @@
+# Created by Dilruk Hansaka Jayasinghe - Undergraduate at UoW
 from graphics import *
 import sys
 
@@ -115,6 +116,7 @@ def store_progress():
     return progress_count, trailer_count, retriever_count, excluded_count, progress_outcomes_list
 
 # //////////////////////////////////////  Display Histogram  /////////////////////////////////////////////
+
 def histogram_graph(progress_count, trailer_count, retriever_count, excluded_count, height_scale=25):
 
     # Create a GraphWin window
@@ -236,15 +238,26 @@ def selection_choice():
 
         else:
             print("Incorrect selection")
-            continue
 
 # /////////////////////////////////////  Progression Report  /////////////////////////////////////////////
 def progression_report():
     print("======  Part 2: Displaying All Progress Outcomes  ======")
+
+    # /////////////////////////////////  Text File (extension)  //////////////////////////////////////////
+    # Write on the Text file & close
+    with open('Student Progression Report.txt', 'wt') as f:
+        f.write("Part 3:\n---------------Student Progression Report------------------\n\n")
+        f.close()
+
     for outcome in progress_outcomes_list:
         print("---------------------------------")
         print(f"{outcome[0]} - {outcome[1]}, {outcome[2]}, {outcome[3]}")
-    print("---------------------------------")
+        # Write on the Text file & close
+        temp = f"{outcome[0]} - {outcome[1]}, {outcome[2]}, {outcome[3]}\n"
+        with open('Student Progression Report.txt', 'a') as f:
+            f.write(temp)
+            f.close()
+    print("---------------------------------") 
 
 # /////////////////////////////////////////  Staff Mode  /////////////////////////////////////////////////
 def staff_mode():
@@ -255,18 +268,21 @@ def staff_mode():
         prompt_credits(pass_credits, defer_credits, fail_credits)
         store_progress()
         selection_choice()
-        selection2 = input("Do you want to Try Again (y) or Exit (n)? (y/n) ").lower()
-        
-        if selection2 == "y":
-            print("---------------------------------")
-            continue
-        elif selection2 == "n":
-            print("---------------------------------")
-            print("Have a Nice Day...")
-            sys.exit(0)
-        else:
-            print("Incorrect selection")
-            continue
+        while True:
+            selection2 = input("Do you want to Try Again (y) or Exit (n) or change the mode (c)? (y/n/c) ").lower()
+            if selection2 == "y":
+                print("---------------------------------")
+                break
+            elif selection2 == "n":
+                print("---------------------------------")
+                print("Have a Nice Day...")
+                sys.exit(0)
+            elif selection2 == "c":
+                print()
+                student()
+            else:
+                print("Incorrect selection")
+                continue
 # ////////////////////////////////////////  Student Mode  ////////////////////////////////////////////////
 def student():
     print("---------------------------------  Student Mode  ---------------------------------\n")
@@ -274,17 +290,25 @@ def student():
         validation()
         prompt_credits(pass_credits, defer_credits, fail_credits)
         store_progress()
-        selection2 = input("Do you want to Try Again (y) or Exit (n)? (y/n) ").lower()
-
-        if selection2 == "y":
-            print("---------------------------------")
-            continue
-        elif selection2 == "n":
-            print("---------------------------------\nIn Student Mode, No histogram available for multiple progression.")
-            exit()
-        else:
-            print("Incorrect selection")
-            continue
+        while True:
+            selection2 = input("Do you want to Try Again (y) or Exit (n) or change the mode (c)? (y/n/c) ").lower()
+            if selection2 == "y":
+                print("---------------------------------")
+                break
+                
+            elif selection2 == "n":
+                print("---------------------------------\nIn Student Mode, No histogram available for multiple progression.")
+                sys.exit(0)
+            elif selection2 =="c":
+                # Reset Histogram & Progress Outcomes list
+                global progress_count, trailer_count, retriever_count, excluded_count, progress_outcomes_list
+                progress_count, trailer_count, retriever_count, excluded_count = 0, 0, 0, 0
+                progress_outcomes_list = []
+                print()
+                staff_mode()
+            else:
+                print("Incorrect selection")
+                continue
 
 # /////////////////////////////////////////  Start code  /////////////////////////////////////////////////
 print("---STUDENT PROGRESSION SYSTEM--- Developed by Dilruk\n")
